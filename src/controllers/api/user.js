@@ -2,16 +2,21 @@
  * The API controllers
  */
 
-import { getConnection } from "typeorm";
+import DataSource from "../../lib/DataSource.js";
 
 export const getUsers = async (req, res, next) => {
   try {
     // get the repository
-    const userRepository = getConnection().getRepository('User');
+    const userRepository = DataSource.getRepository("User");
 
     // get the interests and return them with status code 200
-    res.status(200).json(await userRepository.find({ relations: ["user_meta"] }));
-  } catch(e) {
+    res.status(200).json(
+      await userRepository.find({
+        where: { id: null },
+        relations: ["meta"],
+      })
+    );
+  } catch (e) {
     next(e.message);
   }
-}
+};

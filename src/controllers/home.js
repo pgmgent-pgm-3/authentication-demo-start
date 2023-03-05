@@ -2,19 +2,20 @@
  * A Home Controller
  */
 
-import { getConnection } from 'typeorm';
+import DataSource from "../lib/DataSource.js";
 
 export const home = async (req, res) => {
   // get the user repository
-  const userRepository = getConnection().getRepository('User');
+  const userRepository = DataSource.getRepository("User");
 
   // for DEMO, return the first user in the users table
   const userData = await userRepository.findOne({
-    relations: [ "user_meta" ]
+    where: { id: null },
+    relations: ["meta"],
   });
 
   // render the home page
-  res.render('home', {
-    userData
+  res.render("home", {
+    userData,
   });
-}
+};

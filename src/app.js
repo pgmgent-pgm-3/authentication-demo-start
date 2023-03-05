@@ -1,13 +1,18 @@
+// import dotenv
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
-import "dotenv/config";
-import * as path from "path";
 import { create } from "express-handlebars";
-import { VIEWS_PATH } from "./consts.js";
-import { home } from "./controllers/home.js";
-import HandlebarsHelpers from "./lib/HandlebarsHelpers.js";
 import bodyParser from "body-parser";
-import { createConnection } from "typeorm";
-import entities from "./models/index.js";
+
+import { VIEWS_PATH } from "./consts.js";
+
+import HandlebarsHelpers from "./lib/HandlebarsHelpers.js";
+import DataSource from "./lib/DataSource.js";
+
+// import actions from controllers
+import { home } from "./controllers/home.js";
 import { getUsers } from "./controllers/api/user.js";
 import { login, register } from "./controllers/authentication.js";
 
@@ -46,20 +51,15 @@ app.get("/register", register);
 
 app.get("/api/user", getUsers);
 
-/**
- * Create datbase connection and start listening
- */
-
-createConnection({
-  type: process.env.DATABASE_TYPE,
-  database: process.env.DATABASE_NAME,
-  entities,
-  // logging: true,
-  synchronize: true,
-}).then(() => {
-  app.listen(process.env.PORT, () => {
-    console.log(
-      `Application is running on http://localhost:${process.env.PORT}/.`
-    );
+// start the server
+DataSource.initialize()
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log(
+        `Application is running on http://localhost:${process.env.PORT}/.`
+      );
+    });
+  })
+  .catch(function (error) {
+    console.log("Error: ", error);
   });
-});

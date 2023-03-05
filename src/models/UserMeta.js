@@ -13,13 +13,23 @@ export default new EntitySchema({
     id: {
       primary: true,
       type: "int",
-      generated: true
+      generated: true,
     },
     firstname: {
-      type: "varchar"
+      type: "varchar",
     },
     lastname: {
-      type: "varchar"
-    }
-  }
+      type: "varchar",
+    },
+  },
+  relations: {
+    user: {
+      target: "User",
+      type: "one-to-one",
+      joinColumn: {
+        name: "user_id",
+      },
+      onDelete: "CASCADE",
+    },
+  },
 });
