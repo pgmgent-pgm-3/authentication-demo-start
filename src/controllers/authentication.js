@@ -21,12 +21,14 @@ export const register = async (req, res) => {
       name: "email",
       label: "E-mail",
       type: "text",
+      value: req.body?.email ? req.body.email : "",
       error: req.formErrorFields?.email ? req.formErrorFields.email : null,
     },
     {
       name: "password",
       label: "Password",
       type: "password",
+      password: req.body?.password ? req.body.password : "",
       error: req.formErrorFields?.password
         ? req.formErrorFields.password
         : null,
