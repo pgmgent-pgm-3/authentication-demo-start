@@ -7,12 +7,12 @@ import { validationResult } from "express-validator";
 export const register = async (req, res) => {
   // errors
   const formErrors = [
-    {
-      message: "Another annoying error.",
-    },
-    {
-      message: "Something went wrong.",
-    },
+    // {
+    //   message: "Another annoying error.",
+    // },
+    // {
+    //   message: "Something went wrong.",
+    // },
   ];
 
   // input fields
@@ -21,7 +21,7 @@ export const register = async (req, res) => {
       name: "email",
       label: "E-mail",
       type: "text",
-      error: "Something went wrong",
+      // error: "Something went wrong",
     },
     {
       name: "password",
