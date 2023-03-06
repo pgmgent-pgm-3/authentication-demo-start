@@ -23,6 +23,9 @@ import {
   logout,
 } from "./controllers/authentication.js";
 
+// import middleware
+import registerAuthentication from "./middleware/validation/registerAuthentication.js";
+
 const app = express();
 app.use(express.static("public"));
 
@@ -56,7 +59,7 @@ app.set("views", VIEWS_PATH);
 app.get("/", home);
 app.get("/login", login);
 app.get("/register", register);
-app.post("/register", postRegister);
+app.post("/register", registerAuthentication, postRegister, register);
 app.post("/login", postLogin);
 app.post("/logout", logout);
 

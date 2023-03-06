@@ -2,6 +2,8 @@
  * An authentication Controller
  */
 
+import { validationResult } from "express-validator";
+
 export const register = async (req, res) => {
   // errors
   const formErrors = [
@@ -71,8 +73,21 @@ export const login = async (req, res) => {
   });
 };
 
-export const postRegister = async (req, res) => {
-  res.send("POST: Register been hit");
+export const postRegister = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+
+    // if we have validation errors
+    if (!errors.isEmpty()) {
+      console.log("Uh oh, we have validation errors!");
+
+      return next();
+    } else {
+      res.send("You can register! YAY!");
+    }
+  } catch (e) {
+    next(e.message);
+  }
 };
 
 export const postLogin = async (req, res) => {
