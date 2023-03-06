@@ -79,7 +79,14 @@ export const postRegister = async (req, res, next) => {
 
     // if we have validation errors
     if (!errors.isEmpty()) {
-      console.log("Uh oh, we have validation errors!");
+      // create an object with the error fields
+      const errorFields = {};
+      // iterate over the errors
+      errors.array().forEach((error) => {
+        errorFields[error.param] = error.msg;
+      });
+      // put the errorfields in the current request
+      req.formErrorFields = errorFields;
 
       return next();
     } else {
