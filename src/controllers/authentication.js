@@ -1,5 +1,5 @@
 /**
- * A Register Controller
+ * An authentication Controller
  */
 
 export const register = async (req, res) => {
@@ -42,22 +42,43 @@ export const login = async (req, res) => {
 
   // input fields
   const inputs = [
+    // properties of the first input field (email)
     {
       name: "email",
       label: "E-mail",
       type: "text",
     },
+    // properties of the second input field (password)
     {
       name: "password",
       label: "Password",
       type: "password",
+      error: "Password wrong!",
+    },
+    {
+      name: "age",
+      label: "Age",
+      type: "number",
     },
   ];
 
   // render the login page
   res.render("login", {
     layout: "authentication",
+    // toevoegen van data aan de view
     inputs,
     formErrors,
   });
+};
+
+export const postRegister = async (req, res) => {
+  res.send("POST: Register been hit");
+};
+
+export const postLogin = async (req, res) => {
+  res.send("POST: Login been hit");
+};
+
+export const logout = async (req, res) => {
+  res.send("POST: Logout been hit");
 };

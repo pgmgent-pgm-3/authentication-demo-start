@@ -5,6 +5,7 @@ dotenv.config();
 import express from "express";
 import { create } from "express-handlebars";
 import bodyParser from "body-parser";
+import cookieparser from "cookie-parser";
 
 import { VIEWS_PATH } from "./consts.js";
 
@@ -14,10 +15,21 @@ import DataSource from "./lib/DataSource.js";
 // import actions from controllers
 import { home } from "./controllers/home.js";
 import { getUsers } from "./controllers/api/user.js";
-import { login, register } from "./controllers/authentication.js";
+import {
+  login,
+  register,
+  postLogin,
+  postRegister,
+  logout,
+} from "./controllers/authentication.js";
 
 const app = express();
 app.use(express.static("public"));
+
+/*
+ * Tell Express to use the Cookie Parser
+ */
+app.use(cookieparser());
 
 /**
  * Import the body parser
@@ -44,6 +56,9 @@ app.set("views", VIEWS_PATH);
 app.get("/", home);
 app.get("/login", login);
 app.get("/register", register);
+app.post("/register", postRegister);
+app.post("/login", postLogin);
+app.post("/logout", logout);
 
 /**
  * API Routing
