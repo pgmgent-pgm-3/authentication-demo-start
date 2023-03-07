@@ -49,23 +49,21 @@ export const login = async (req, res) => {
 
   // input fields
   const inputs = [
-    // properties of the first input field (email)
-    {
+     {
       name: "email",
       label: "E-mail",
       type: "text",
+      value: req.body?.email ? req.body.email : "",
+      error: req.formErrorFields?.email ? req.formErrorFields.email : null,
     },
-    // properties of the second input field (password)
     {
       name: "password",
       label: "Password",
       type: "password",
-      error: "Password wrong!",
-    },
-    {
-      name: "age",
-      label: "Age",
-      type: "number",
+      password: req.body?.password ? req.body.password : "",
+      error: req.formErrorFields?.password
+        ? req.formErrorFields.password
+        : null,
     },
   ];
 
@@ -102,8 +100,28 @@ export const postRegister = async (req, res, next) => {
   }
 };
 
-export const postLogin = async (req, res) => {
-  res.send("POST: Login been hit");
+export const postLogin = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+
+    // if we have validation errors
+    if (!errors.isEmpty()) {
+      // create an object with the error fields
+      const errorFields = {};
+      // iterate over the errors
+      errors.array().forEach((error) => {
+        errorFields[error.param] = error.msg;
+      });
+      // put the errorfields in the current request
+      req.formErrorFields = errorFields;
+
+      return next();
+    } else {
+      res.send("You can login! YAY!");
+    }
+  } catch (e) {
+    next(e.message);
+  }
 };
 
 export const logout = async (req, res) => {

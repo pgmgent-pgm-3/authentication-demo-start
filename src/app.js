@@ -25,6 +25,7 @@ import {
 
 // import middleware
 import registerAuthentication from "./middleware/validation/registerAuthentication.js";
+import loginAuthentication from "./middleware/validation/loginAuthentication.js";
 
 const app = express();
 app.use(express.static("public"));
@@ -60,7 +61,7 @@ app.get("/", home);
 app.get("/login", login);
 app.get("/register", register);
 app.post("/register", registerAuthentication, postRegister, register);
-app.post("/login", postLogin);
+app.post("/login", loginAuthentication, postLogin, login);
 app.post("/logout", logout);
 
 /**
