@@ -122,9 +122,6 @@ export const postLogin = async (req, res, next) => {
       // get the user
       const userRepository = await DataSource.getRepository('User');
 
-console.log("email", req.body.email);
-console.log("password", req.body.password);
-
       // get a user with a specific email adress
       const user = await userRepository.findOne({
         where: {
@@ -132,8 +129,6 @@ console.log("password", req.body.password);
           password: req.body.password
         }
       })
-
-console.log(user);
 
       // authentication validation
       if(!user) {
