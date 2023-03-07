@@ -3,6 +3,7 @@
  */
 
 import { validationResult } from "express-validator";
+import jwt from 'jsonwebtoken';
 
 export const register = async (req, res) => {
   // errors
@@ -117,7 +118,11 @@ export const postLogin = async (req, res, next) => {
 
       return next();
     } else {
-      res.send("You can login! YAY!");
+      const token = jwt.sign(
+        { email: req.body.email },
+        'dit is mijn salt zodat mijn gerecht er chaotisch uitziet'
+      );
+      console.log(token);
     }
   } catch (e) {
     next(e.message);
