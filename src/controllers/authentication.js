@@ -155,5 +155,7 @@ export const postLogin = async (req, res, next) => {
 };
 
 export const logout = async (req, res) => {
-  res.send("POST: Logout been hit");
+console.log('logging out');
+  res.clearCookie('logout');
+  return res.redirect('/login');
 };

@@ -26,6 +26,7 @@ import {
 // import middleware
 import registerAuthentication from "./middleware/validation/registerAuthentication.js";
 import loginAuthentication from "./middleware/validation/loginAuthentication.js";
+import { jwtAuth } from "./middleware/jwtAuth.js";
 
 const app = express();
 app.use(express.static("public"));
@@ -57,7 +58,7 @@ app.set("views", VIEWS_PATH);
  * App Routing
  */
 
-app.get("/", home);
+app.get("/", jwtAuth, home);
 app.get("/login", login);
 app.get("/register", register);
 app.post("/register", registerAuthentication, postRegister, register);
