@@ -155,7 +155,6 @@ export const postLogin = async (req, res, next) => {
 };
 
 export const logout = async (req, res) => {
-console.log('logging out');
-  res.clearCookie('logout');
-  return res.redirect('/login');
+  res.clearCookie('token');
+  res.redirect('/login');
 };
