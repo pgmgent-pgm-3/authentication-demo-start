@@ -4,6 +4,7 @@
 
 import { validationResult } from "express-validator";
 import jwt from 'jsonwebtoken';
+import DataSource from '../lib/DataSource.js';
 
 export const register = async (req, res) => {
   // errors
@@ -118,9 +119,31 @@ export const postLogin = async (req, res, next) => {
 
       return next();
     } else {
+      // get the user
+      const userRepository = await DataSource.getRepository('User');
+
+console.log("email", req.body.email);
+console.log("password", req.body.password);
+
+      // get a user with a specific email adress
+      const user = await userRepository.findOne({
+        where: {
+          email: req.body.email,
+          password: req.body.password
+        }
+      })
+
+console.log(user);
+
+      // authentication validation
+      if(!user) {
+        req.formErrors = [{ message: 'Gebruiker bestaat niet.' }];
+        return next();
+      }
+
       // create the JWT web token, aka our identity card
       const token = jwt.sign(
-        { email: req.body.email },
+        { userId: user.id, email: req.body.email },
         process.env.TOKEN_SALT,
         { expiresIn: '1h' }
       );
