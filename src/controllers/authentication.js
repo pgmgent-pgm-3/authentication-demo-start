@@ -118,11 +118,18 @@ export const postLogin = async (req, res, next) => {
 
       return next();
     } else {
+      // create the JWT web token, aka our identity card
       const token = jwt.sign(
         { email: req.body.email },
-        'dit is mijn salt zodat mijn gerecht er chaotisch uitziet'
+        process.env.TOKEN_SALT,
+        { expiresIn: '1h' }
       );
-      console.log(token);
+
+      // create a cookie and add this to the response
+      res.cookie('token', token, { httpOnly: true });
+
+      // redirect to our root
+      res.redirect('/');
     }
   } catch (e) {
     next(e.message);
