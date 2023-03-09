@@ -3,8 +3,8 @@
  */
 
 import { validationResult } from "express-validator";
-import jwt from 'jsonwebtoken';
-import DataSource from '../lib/DataSource.js';
+import jwt from "jsonwebtoken";
+import DataSource from "../lib/DataSource.js";
 
 export const register = async (req, res) => {
   // errors
@@ -51,7 +51,7 @@ export const login = async (req, res) => {
 
   // input fields
   const inputs = [
-     {
+    {
       name: "email",
       label: "E-mail",
       type: "text",
@@ -120,19 +120,19 @@ export const postLogin = async (req, res, next) => {
       return next();
     } else {
       // get the user
-      const userRepository = await DataSource.getRepository('User');
+      const userRepository = await DataSource.getRepository("User");
 
       // get a user with a specific email adress
       const user = await userRepository.findOne({
         where: {
           email: req.body.email,
-          password: req.body.password
-        }
-      })
+          password: req.body.password,
+        },
+      });
 
       // authentication validation
-      if(!user) {
-        req.formErrors = [{ message: 'Gebruiker bestaat niet.' }];
+      if (!user) {
+        req.formErrors = [{ message: "Gebruiker bestaat niet." }];
         return next();
       }
 
@@ -140,14 +140,14 @@ export const postLogin = async (req, res, next) => {
       const token = jwt.sign(
         { userId: user.id, email: req.body.email },
         process.env.TOKEN_SALT,
-        { expiresIn: '1h' }
+        { expiresIn: "1h" }
       );
 
       // create a cookie and add this to the response
-      res.cookie('token', token, { httpOnly: true });
+      res.cookie("token", token, { httpOnly: true });
 
       // redirect to our root
-      res.redirect('/');
+      res.redirect("/");
     }
   } catch (e) {
     next(e.message);
@@ -155,6 +155,6 @@ export const postLogin = async (req, res, next) => {
 };
 
 export const logout = async (req, res) => {
-  res.clearCookie('token');
-  res.redirect('/login');
+  res.clearCookie("token");
+  res.redirect("/login");
 };
