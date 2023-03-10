@@ -69,7 +69,7 @@ app.post("/logout", logout);
  * API Routing
  */
 
-app.get("/api/user", getUsers);
+app.get("/api/user", getUsers); // change
 
 // start the server
 DataSource.initialize()
