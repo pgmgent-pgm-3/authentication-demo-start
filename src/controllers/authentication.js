@@ -95,7 +95,17 @@ export const postRegister = async (req, res, next) => {
 
       return next();
     } else {
-      res.send("You can register! YAY!");
+      // make user repository instance
+      const userRepository = await DataSource.getRepository("User");
+
+      // create a new user
+      const user = await userRepository.create({
+        email: req.body.email,
+        password: req.body.password,
+      });
+
+      // save the user
+      await userRepository.save(user);
     }
   } catch (e) {
     next(e.message);
