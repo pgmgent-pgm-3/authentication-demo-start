@@ -8,14 +8,7 @@ import DataSource from "../lib/DataSource.js";
 
 export const register = async (req, res) => {
   // errors
-  const formErrors = [
-    // {
-    //   message: "Another annoying error.",
-    // },
-    // {
-    //   message: "Something went wrong.",
-    // },
-  ];
+  const formErrors = req.formErrors;
 
   // input fields
   const inputs = [
