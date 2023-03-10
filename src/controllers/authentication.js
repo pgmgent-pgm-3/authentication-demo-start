@@ -126,13 +126,18 @@ export const postLogin = async (req, res, next) => {
       const user = await userRepository.findOne({
         where: {
           email: req.body.email,
-          password: req.body.password,
         },
       });
 
       // authentication validation
       if (!user) {
         req.formErrors = [{ message: "Gebruiker bestaat niet." }];
+        return next();
+      }
+
+      // password check
+      if (user.password !== req.body.password) {
+        req.formErrors = [{ message: "Wachtwoord is niet correct." }];
         return next();
       }
 
