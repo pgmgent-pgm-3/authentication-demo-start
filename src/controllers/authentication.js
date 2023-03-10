@@ -154,11 +154,16 @@ export const postLogin = async (req, res, next) => {
         return next();
       }
 
+      // compare hashed password with saved hashed password
+      const givenPassword = req.body.password;
+      const dbPassword = user.password;
+      const isAMatch = bcrypt.compareSync(givenPassword, dbPassword);
+
       // password check
-      if (user.password !== req.body.password) {
-        req.formErrors = [{ message: "Wachtwoord is niet correct." }];
-        return next();
-      }
+      // if (user.password !== req.body.password) {
+      //   req.formErrors = [{ message: "Wachtwoord is niet correct." }];
+      //   return next();
+      // }
 
       // create the JWT web token, aka our identity card
       const token = jwt.sign(
