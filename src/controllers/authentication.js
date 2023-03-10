@@ -47,7 +47,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   // errors
-  const formErrors = [];
+  const formErrors = req.formErrors;
 
   // input fields
   const inputs = [
