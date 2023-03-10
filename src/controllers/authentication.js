@@ -106,6 +106,8 @@ export const postRegister = async (req, res, next) => {
 
       // save the user
       await userRepository.save(user);
+
+      res.redirect("/login");
     }
   } catch (e) {
     next(e.message);
@@ -153,7 +155,7 @@ export const postLogin = async (req, res, next) => {
 
       // create the JWT web token, aka our identity card
       const token = jwt.sign(
-        { userId: user.id, email: req.body.email },
+        { id: user.id, email: req.body.email },
         process.env.TOKEN_SALT,
         { expiresIn: "1h" }
       );
