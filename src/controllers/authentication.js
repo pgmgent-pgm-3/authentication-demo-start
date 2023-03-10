@@ -98,6 +98,17 @@ export const postRegister = async (req, res, next) => {
       // make user repository instance
       const userRepository = await DataSource.getRepository("User");
 
+      const userExists = await userRepository.findOne({
+        where: {
+          email: req.body.email,
+        },
+      });
+
+      if (userExists) {
+        req.formErrors = [{ message: "Gebruiker bestaat al." }];
+        return next();
+      }
+
       // create a new user
       const user = await userRepository.create({
         email: req.body.email,
