@@ -141,10 +141,13 @@ export const postLogin = async (req, res, next) => {
       // get the user
       const userRepository = await DataSource.getRepository("User");
 
+      // change email to lowercase letters
+      const lwEmail = req.body.email.toLowerCase();
+
       // get a user with a specific email adress
       const user = await userRepository.findOne({
         where: {
-          email: req.body.email,
+          email: lwEmail,
         },
       });
 
