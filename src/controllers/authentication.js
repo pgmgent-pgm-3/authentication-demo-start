@@ -5,6 +5,7 @@
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import DataSource from "../lib/DataSource.js";
+import bcrypt from "bcrypt";
 
 export const register = async (req, res) => {
   // errors
@@ -102,10 +103,12 @@ export const postRegister = async (req, res, next) => {
         return next();
       }
 
+      const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+
       // create a new user
       const user = await userRepository.create({
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
       });
 
       // save the user
