@@ -158,7 +158,6 @@ export const postLogin = async (req, res, next) => {
     } else {
       // get the user
       const userRepository = await DataSource.getRepository("User");
-
       // change email to lowercase letters
       const lwEmail = req.body.email.toLowerCase();
 
@@ -185,10 +184,10 @@ export const postLogin = async (req, res, next) => {
         req.formErrors = [{ message: "Wachtwoord is niet correct." }];
         return next();
       }
-
+      console.log(user)
       // create the JWT web token, aka our identity card
       const token = jwt.sign(
-        { id: user.id, email: req.body.email },
+        { id: user.id, email: req.body.email},
         process.env.TOKEN_SALT,
         { expiresIn: "1h" }
       );
