@@ -28,6 +28,7 @@ import registerAuthentication from "./middleware/validation/registerAuthenticati
 import loginAuthentication from "./middleware/validation/loginAuthentication.js";
 import { jwtAuth } from "./middleware/jwtAuth.js";
 
+
 const app = express();
 app.use(express.static("public"));
 
