@@ -5,17 +5,15 @@
 import DataSource from "../lib/DataSource.js";
 
 export const home = async (req, res) => {
-  // get the user repository
-  const userRepository = DataSource.getRepository("User");
-
-  // for DEMO, return the first user in the users table
-  const userData = await userRepository.findOne({
-    where: { id: null },
-    relations: ["meta"],
-  });
-
+  const userRole = req.user.role.label;
+  if(userRole==="admin"){
+    res.render("admin", {
+      user: req.user,
+    });
+    return;
+  }
   // render the home page
   res.render("home", {
-    userData,
+    user: req.user,
   });
 };
