@@ -6,7 +6,6 @@ import DataSource from "../lib/DataSource.js";
 
 export const home = async (req, res) => {
   const userRole = req.user.role.label;
-  console.log(userRole)
   if(userRole==="admin"){
     res.render("admin", {
       user: req.user,
