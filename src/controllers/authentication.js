@@ -31,11 +31,16 @@ export const register = async (req, res) => {
     },
   ];
 
+  // get the roles
+  const roleRepository = await DataSource.getRepository("Role");
+  const roles = await roleRepository.find();
+
   // render the register page
   res.render("register", {
     layout: "authentication",
     inputs,
     formErrors,
+    roles,
   });
 };
 

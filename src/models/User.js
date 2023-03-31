@@ -1,6 +1,8 @@
 import typeorm from "typeorm";
 
-const { EntitySchema } = typeorm;
+const {
+  EntitySchema
+} = typeorm;
 
 export default new EntitySchema({
   name: "User",
@@ -24,6 +26,12 @@ export default new EntitySchema({
       type: "one-to-one",
       cascade: true,
       inverseSide: "user",
+    },
+    role: {
+      target: "Role",
+      type: "many-to-one",
+      joinColumn: true,
+      inverseSide: "users",
     },
   },
 });

@@ -5,6 +5,14 @@
     {{#each inputs}}
       {{>form-input this}}
     {{/each}}
+    <div class="input-container">
+      <label for="role">Bevoegd als</label>
+      <select name="role" id="roles">
+        {{#each roles}}
+          <option value="{{ label }}">{{ label }}</option>
+        {{/each}}
+      </select>      
+    </div>
     <div class="footer-container">
       <input type="reset" class="btn btn-tertiary" value="Clear">
       <input type="submit" class="btn btn-primary" value="Register">
