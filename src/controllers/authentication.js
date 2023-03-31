@@ -96,12 +96,24 @@ export const postRegister = async (req, res, next) => {
     } else {
       // make user repository instance
       const userRepository = await DataSource.getRepository("User");
+      const roleRepository = await DataSource.getRepository("Role");
 
       const userExists = await userRepository.findOne({
         where: {
           email: req.body.email,
         },
       });
+
+      const role = await roleRepository.findOne({
+        where: {
+          label: req.body.role,
+        },
+      });
+
+      if(!role) {
+        req.formErrors = [{ message: "Rol bestaat niet." }];
+        return next();
+      }
 
       if (userExists) {
         req.formErrors = [{ message: "Gebruiker bestaat al." }];
@@ -114,6 +126,7 @@ export const postRegister = async (req, res, next) => {
       const user = await userRepository.create({
         email: req.body.email,
         password: hashedPassword,
+        role
       });
 
       // save the user
